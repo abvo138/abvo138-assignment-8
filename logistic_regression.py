@@ -16,12 +16,13 @@ def generate_ellipsoid_clusters(distance, n_samples=100, cluster_std=0.5):
     covariance_matrix = np.array([[cluster_std, cluster_std * 0.8], 
                                   [cluster_std * 0.8, cluster_std]])
     
-    # Generate the first cluster (class 0)
+     # Generate the first cluster (class 0)
     X1 = np.random.multivariate_normal(mean=[1, 1], cov=covariance_matrix, size=n_samples)
     y1 = np.zeros(n_samples)
 
-    # Generate the second cluster (class 1) and shift it
-    X2 = np.random.multivariate_normal(mean=[1 + distance, 1 + distance], cov=covariance_matrix, size=n_samples)
+    # Generate the second cluster (class 1) and shift it along y = -x
+    shift = distance / np.sqrt(2)
+    X2 = np.random.multivariate_normal(mean=[1 + shift, 1 - shift], cov=covariance_matrix, size=n_samples)
     y2 = np.ones(n_samples)
 
     # Combine the clusters into one dataset
